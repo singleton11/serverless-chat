@@ -5,7 +5,7 @@ import boto3
 
 
 def post(event, context):
-    """Get all messages of chat"""
+    """Send message to the chat"""
 
     client = boto3.client('dynamodb')
 
@@ -17,3 +17,13 @@ def post(event, context):
                     })
 
     return {'statusCode': 201}
+
+
+def get(event, context):
+    """Get all messages of the chat"""
+
+    client = boto3.client('dynamodb')
+
+    data = client.scan(TableName='messages')
+
+    return {'statusCode': 200, 'body': json.dumps(data)}
