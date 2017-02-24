@@ -1,15 +1,19 @@
 import json
+import time
+
+import boto3
 
 
-def get(event, context):
-    body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
-    }
+def post(event, context):
+    """Get all messages of chat"""
 
-    response = {
-        "statusCode": 200,
-        "body": json.dumps(body)
-    }
+    client = boto3.client('dynamodb')
 
-    return response
+    body = json.loads(event['body'])
+    client.put_item(TableName='messages',
+                    Item={
+                        'message': {'S': body['message']},
+                        'created': {'N': str(int(time.time()))}
+                    })
+
+    return {'statusCode': 201}

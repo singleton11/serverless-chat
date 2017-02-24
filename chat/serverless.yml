@@ -6,5 +6,23 @@ provider:
 
 
 functions:
-  hello:
-    handler: handler.get
+  send_message:
+    handler: handler.post
+    events:
+      - http: post chat
+
+resources:
+  Resources:
+    chatTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: messages
+        AttributeDefinitions:
+          - AttributeName: created
+            AttributeType: N
+        KeySchema:
+          - AttributeName: created
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
