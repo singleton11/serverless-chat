@@ -3,11 +3,11 @@ import time
 
 import boto3
 
+client = boto3.client('dynamodb')
+
 
 def post(event, context):
     """Send message to the chat"""
-
-    client = boto3.client('dynamodb')
 
     body = json.loads(event['body'])
     client.put_item(TableName='messages',
@@ -22,8 +22,6 @@ def post(event, context):
 
 def get(event, context):
     """Get all messages of the chat"""
-
-    client = boto3.client('dynamodb')
 
     data = client.scan(TableName='messages')
 
