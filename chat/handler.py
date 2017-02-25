@@ -13,6 +13,7 @@ def post(event, context):
     client.put_item(TableName='messages',
                     Item={
                         'message': {'S': body['message']},
+                        'nick': {'S': body['nick']},
                         'created': {'N': str(int(time.time()))}
                     })
 
